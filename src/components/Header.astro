@@ -9,28 +9,27 @@ import { SITE_TITLE } from '../consts';
 </header>
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
+		border-bottom: 1px solid var(--border);
 	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
+	h2 {
+		margin: 0;
+		font-size: 1.75rem;
+		line-height: 1;
+		font-weight: 400;
 	}
+
+	h2 a {
+		text-decoration: none;
+		color: var(--text-primary);
+	}
+
 	nav {
+		max-width: 680px;
+		height: 60px;
+		padding: 0 16px;
+		margin: 0 auto;
 		display: flex;
 		align-items: center;
-		justify-content: flex-start;
-	}
-	nav a {
-		padding: 1em 0;
-		color: var(--black);
-		text-decoration: none;
 	}
 </style>

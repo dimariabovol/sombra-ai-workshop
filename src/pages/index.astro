@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { estimateReadingTime } from '../utils/readingTime';
 
 const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -16,42 +17,92 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			.page-title {
+				margin-bottom: 2rem;
+			}
 			.posts {
 				list-style: none;
 				padding: 0;
-				margin: 2rem 0 0 0;
+				margin: 0;
 				display: grid;
-				gap: 1.5rem;
+				gap: 3rem;
 			}
+
+			.post-item {
+				display: grid;
+				gap: 0.5rem;
+			}
+
 			.post-title {
-				margin: 0 0 0.25rem 0;
-				font-size: 1.5rem;
+				font-size: 1.125rem;
+				line-height: 1.56;
+				margin: 0;
+				color: var(--brand);
 			}
+
+			.post-title a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			.post-title a:hover {
+				text-decoration: underline;
+			}
+
 			.post-meta {
-				margin: 0 0 0.75rem 0;
-				color: rgb(var(--gray));
-				font-size: 0.95rem;
+				margin: 0;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.75rem;
+				color: var(--text-muted);
+				font-size: 0.875rem;
+				line-height: 1.428;
 			}
+
+			.reading-time {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+
+			.reading-time::before {
+				content: '';
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border: 1px solid currentColor;
+				border-radius: 50%;
+			}
+
 			.post-description {
 				margin: 0;
+				color: var(--text-muted);
+				font-size: 0.875rem;
+				line-height: 1.428;
+			}
+
+			@media (max-width: 768px) {
+				.posts {
+					gap: 2rem;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>All Posts</h1>
-			<p>Notes on frontend, product engineering, and practical development workflows.</p>
+			<h1 class="page-title">All Posts</h1>
 			<ul class="posts">
 				{
 					posts.map((post) => (
-						<li>
-							<article>
+						<li class="post-item">
+							<article class="post-item">
 								<h2 class="post-title">
 									<a href={`/posts/${post.id}/`}>{post.data.title}</a>
 								</h2>
 								<p class="post-meta">
 									<FormattedDate date={post.data.pubDate} />
+									<span class="reading-time">{estimateReadingTime(post.body)}</span>
 								</p>
 								<p class="post-description">{post.data.description}</p>
 							</article>
