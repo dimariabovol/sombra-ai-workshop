@@ -5,8 +5,35 @@ import { SITE_TITLE } from '../consts';
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<button class="theme-toggle" type="button" aria-pressed="false" aria-label="Enable dark mode">
+			<span class="sr-only">Toggle color theme</span>
+		</button>
 	</nav>
 </header>
+<script is:inline>
+	const toggleButton = document.querySelector('.theme-toggle');
+
+	if (toggleButton) {
+		const root = document.documentElement;
+
+		const updateToggle = (theme) => {
+			const isDark = theme === 'dark';
+			toggleButton.setAttribute('aria-pressed', String(isDark));
+			toggleButton.setAttribute('aria-label', isDark ? 'Enable light mode' : 'Enable dark mode');
+		};
+
+		updateToggle(root.dataset.theme ?? 'light');
+
+		toggleButton.addEventListener('click', () => {
+			const currentTheme = root.dataset.theme === 'dark' ? 'dark' : 'light';
+			const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+			root.dataset.theme = nextTheme;
+			localStorage.setItem('theme', nextTheme);
+			updateToggle(nextTheme);
+		});
+	}
+</script>
 <style>
 	header {
 		border-bottom: 1px solid var(--border);
@@ -31,5 +58,45 @@ import { SITE_TITLE } from '../consts';
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
+	}
+
+	.theme-toggle {
+		appearance: none;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		border-radius: 999px;
+		width: 46px;
+		height: 26px;
+		padding: 2px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-start;
+		cursor: pointer;
+		transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+	}
+
+	.theme-toggle::before {
+		content: '';
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: var(--text-primary);
+		transform: translateX(0);
+		transition: transform 180ms ease, background-color 180ms ease;
+	}
+
+	.theme-toggle[aria-pressed='true']::before {
+		transform: translateX(20px);
+		background: var(--brand);
+	}
+
+	.theme-toggle:hover {
+		background: var(--surface-muted);
+	}
+
+	.theme-toggle:focus-visible {
+		outline: 2px solid var(--brand);
+		outline-offset: 2px;
 	}
 </style>
