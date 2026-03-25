@@ -1,12 +1,18 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
+
+const moonIconSvg = icon(faMoon).html.join('');
+const sunIconSvg = icon(faSun).html.join('');
 ---
 
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<button class="theme-toggle" type="button" aria-pressed="false" aria-label="Enable dark mode">
-			<span class="sr-only">Toggle color theme</span>
+			<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIconSvg}></span>
+			<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIconSvg}></span>
 		</button>
 	</nav>
 </header>
@@ -62,37 +68,52 @@ import { SITE_TITLE } from '../consts';
 	}
 
 	.theme-toggle {
-		appearance: none;
-		border: 1px solid var(--border);
-		background: var(--surface);
-		border-radius: 999px;
-		width: 46px;
-		height: 26px;
-		padding: 2px;
+		border: 0;
+		background: transparent;
+		color: #525252;
+		width: 16px;
+		height: 16px;
+		padding: 0;
 		display: inline-flex;
 		align-items: center;
-		justify-content: flex-start;
+		justify-content: center;
+		position: relative;
+		border-radius: 4px;
 		cursor: pointer;
-		transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+		transition: color 150ms ease;
 	}
 
-	.theme-toggle::before {
-		content: '';
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
-		background: var(--text-primary);
-		transform: translateX(0);
-		transition: transform 180ms ease, background-color 180ms ease;
+	.theme-toggle-icon {
+		position: absolute;
+		inset: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 16px;
+		height: 16px;
+		line-height: 1;
 	}
 
-	.theme-toggle[aria-pressed='true']::before {
-		transform: translateX(20px);
-		background: var(--brand);
+	.theme-toggle-icon :global(svg) {
+		width: 12px;
+		height: 12px;
+		display: block;
+	}
+
+	.theme-toggle .sun {
+		display: none;
+	}
+
+	.theme-toggle[aria-pressed='true'] .sun {
+		display: inline-flex;
+	}
+
+	.theme-toggle[aria-pressed='true'] .moon {
+		display: none;
 	}
 
 	.theme-toggle:hover {
-		background: var(--surface-muted);
+		color: var(--text-primary);
 	}
 
 	.theme-toggle:focus-visible {
