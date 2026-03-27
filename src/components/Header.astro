@@ -1,10 +1,12 @@
 ---
 import { SITE_TITLE } from '../consts';
 import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
+import { faMoon, faSun, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const moonIconSvg = icon(faMoon).html.join('');
 const sunIconSvg = icon(faSun).html.join('');
+const barsIconSvg = icon(faBars).html.join('');
+const closeIconSvg = icon(faXmark).html.join('');
 ---
 
 <header>
@@ -17,11 +19,21 @@ const sunIconSvg = icon(faSun).html.join('');
 				<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIconSvg}></span>
 				<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIconSvg}></span>
 			</button>
+			<button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+				<span class="menu-icon bars" aria-hidden="true" set:html={barsIconSvg}></span>
+				<span class="menu-icon close" aria-hidden="true" set:html={closeIconSvg}></span>
+			</button>
 		</div>
 	</nav>
+	<div class="mobile-menu">
+		<a href="/">Posts</a>
+		<a href="/about">About</a>
+	</div>
 </header>
 <script is:inline>
 	const toggleButton = document.querySelector('.theme-toggle');
+	const menuButton = document.querySelector('.menu-toggle');
+	const headerEl = document.querySelector('header');
 
 	if (toggleButton) {
 		const root = document.documentElement;
@@ -41,6 +53,24 @@ const sunIconSvg = icon(faSun).html.join('');
 			root.dataset.theme = nextTheme;
 			localStorage.setItem('theme', nextTheme);
 			updateToggle(nextTheme);
+		});
+	}
+
+	if (menuButton && headerEl) {
+		const closeMenu = () => {
+			headerEl.classList.remove('menu-open');
+			menuButton.setAttribute('aria-expanded', 'false');
+			menuButton.setAttribute('aria-label', 'Open menu');
+		};
+
+		menuButton.addEventListener('click', () => {
+			const isOpen = headerEl.classList.toggle('menu-open');
+			menuButton.setAttribute('aria-expanded', String(isOpen));
+			menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+		});
+
+		headerEl.querySelectorAll('.mobile-menu a').forEach((link) => {
+			link.addEventListener('click', closeMenu);
 		});
 	}
 </script>
@@ -142,5 +172,98 @@ const sunIconSvg = icon(faSun).html.join('');
 	.theme-toggle:focus-visible {
 		outline: 2px solid var(--brand);
 		outline-offset: 2px;
+	}
+
+	/* Hamburger menu toggle — hidden on desktop */
+	.menu-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 20px;
+		border: 0;
+		background: transparent;
+		color: var(--text-muted);
+		padding: 0;
+		font-size: 0;
+		cursor: pointer;
+		border-radius: 4px;
+		transition: color 150ms ease;
+	}
+
+	.menu-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 20px;
+		line-height: 1;
+	}
+
+	.menu-icon :global(svg) {
+		width: 20px;
+		height: 20px;
+		display: block;
+	}
+
+	.menu-toggle .close {
+		display: none;
+	}
+
+	.menu-toggle[aria-expanded='true'] .close {
+		display: inline-flex;
+	}
+
+	.menu-toggle[aria-expanded='true'] .bars {
+		display: none;
+	}
+
+	.menu-toggle:hover {
+		color: var(--text-primary);
+	}
+
+	.menu-toggle:focus-visible {
+		outline: 2px solid var(--brand);
+		outline-offset: 2px;
+	}
+
+	/* Mobile menu panel — hidden by default */
+	.mobile-menu {
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.nav-link {
+			display: none;
+		}
+
+		.nav-right {
+			gap: 16px;
+		}
+
+		.menu-toggle {
+			display: inline-flex;
+		}
+
+		header.menu-open .mobile-menu {
+			display: flex;
+			flex-direction: column;
+			padding: 0 16px 16px;
+		}
+
+		.mobile-menu a {
+			display: block;
+			padding: 12px 0;
+			font-size: 14px;
+			line-height: 1.428;
+			color: var(--text-muted);
+			text-decoration: none;
+			border-top: 1px solid var(--border);
+		}
+
+		.mobile-menu a:hover {
+			color: var(--text-primary);
+			text-decoration: none;
+		}
 	}
 </style>
