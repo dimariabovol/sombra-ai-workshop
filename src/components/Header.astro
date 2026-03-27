@@ -9,11 +9,15 @@ const sunIconSvg = icon(faSun).html.join('');
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<button class="theme-toggle" type="button" aria-pressed="false" aria-label="Enable dark mode">
-			<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIconSvg}></span>
-			<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIconSvg}></span>
-		</button>
+		<a class="brand" href="/">{SITE_TITLE}</a>
+		<div class="nav-right">
+			<a class="nav-link" href="/">Posts</a>
+			<a class="nav-link" href="/about">About</a>
+			<button class="theme-toggle" type="button" aria-pressed="false" aria-label="Enable dark mode">
+				<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIconSvg}></span>
+				<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIconSvg}></span>
+			</button>
+		</div>
 	</nav>
 </header>
 <script is:inline>
@@ -45,18 +49,6 @@ const sunIconSvg = icon(faSun).html.join('');
 		border-bottom: 1px solid var(--border);
 	}
 
-	h2 {
-		margin: 0;
-		font-size: 1.75rem;
-		line-height: 1;
-		font-weight: 400;
-	}
-
-	h2 a {
-		text-decoration: none;
-		color: var(--text-primary);
-	}
-
 	nav {
 		max-width: 680px;
 		height: 60px;
@@ -67,13 +59,46 @@ const sunIconSvg = icon(faSun).html.join('');
 		justify-content: space-between;
 	}
 
+	.brand {
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 1.7;
+		color: var(--text-primary);
+		text-decoration: none;
+		border-radius: 4px;
+	}
+
+	.brand:hover {
+		text-decoration: none;
+	}
+
+	.nav-right {
+		display: flex;
+		align-items: center;
+		gap: 24px;
+	}
+
+	.nav-link {
+		font-size: 14px;
+		line-height: 1.428;
+		color: var(--text-muted);
+		text-decoration: none;
+		border-radius: 4px;
+	}
+
+	.nav-link:hover {
+		color: var(--text-primary);
+		text-decoration: none;
+	}
+
 	.theme-toggle {
 		border: 0;
 		background: transparent;
-		color: #525252;
-		width: 16px;
-		height: 16px;
-		padding: 0;
+		color: var(--text-muted);
+		width: 36px;
+		height: 36px;
+		padding: 10px;
+		margin: -10px;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -84,8 +109,6 @@ const sunIconSvg = icon(faSun).html.join('');
 	}
 
 	.theme-toggle-icon {
-		position: absolute;
-		inset: 0;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -95,8 +118,8 @@ const sunIconSvg = icon(faSun).html.join('');
 	}
 
 	.theme-toggle-icon :global(svg) {
-		width: 12px;
-		height: 12px;
+		width: 16px;
+		height: 16px;
 		display: block;
 	}
 
