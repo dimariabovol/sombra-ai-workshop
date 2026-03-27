@@ -15,9 +15,6 @@
     "@astrojs/mdx": "^5.0.2",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
-    "@fortawesome/fontawesome-svg-core": "^7.2.0",
-    "@fortawesome/free-regular-svg-icons": "^7.2.0",
-    "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "astro": "^6.0.8",
     "sharp": "^0.34.3"
   }

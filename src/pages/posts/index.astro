@@ -5,10 +5,8 @@ import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
 import { estimateReadingTime } from '../../utils/readingTime';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { clockIcon } from '../../utils/icons';
 
-const clockIconSvg = icon(faClock).html.join('');
 
 const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -158,7 +156,7 @@ for (const post of posts) {
 												})}
 											</time>
 											<span class="reading-time">
-												<span class="clock-icon" aria-hidden="true" set:html={clockIconSvg} />
+												<span class="clock-icon" aria-hidden="true" set:html={clockIcon} />
 												{estimateReadingTime(post.body ?? '').replace(' read', '')}
 											</span>
 										</p>

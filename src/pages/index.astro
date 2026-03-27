@@ -7,10 +7,8 @@ import Header from '../components/Header.astro';
 import Avatar from '../assets/avatar.avif';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { estimateReadingTime } from '../utils/readingTime';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { clockIcon, githubIcon, linkedinIcon, envelopeIcon, instagramIcon } from '../utils/icons';
 
-const clockIconSvg = icon(faClock).html.join('');
 
 const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -55,6 +53,40 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 				font-size: 16px;
 				line-height: 1.625;
 				color: var(--text-secondary);
+			}
+
+			.hero-social {
+				display: flex;
+				align-items: center;
+				margin-left: -8px;
+			}
+
+			.hero-social a {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 36px;
+				height: 36px;
+				color: var(--text-muted);
+				text-decoration: none;
+				border-radius: 4px;
+				transition: color 150ms ease;
+			}
+
+			.hero-social a:hover {
+				color: var(--text-primary);
+				text-decoration: none;
+			}
+
+			.hero-social a:focus-visible {
+				outline: 2px solid var(--brand);
+				outline-offset: 2px;
+			}
+
+			.hero-social :global(svg) {
+				width: 20px;
+				height: 20px;
+				display: block;
 			}
 
 			.posts-section {
@@ -189,6 +221,12 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 					<h1 class="hero-title" id="hero-title">Hi there!</h1>
 					<p class="hero-description">AI-powered tools from Swift roots to web frontiers.</p>
 					<p class="hero-description">{SITE_DESCRIPTION}</p>
+					<div class="hero-social">
+						<a href="https://github.com" aria-label="GitHub" set:html={githubIcon} />
+						<a href="https://linkedin.com" aria-label="LinkedIn" set:html={linkedinIcon} />
+						<a href="mailto:hello@example.com" aria-label="Email" set:html={envelopeIcon} />
+						<a href="https://instagram.com" aria-label="Instagram" set:html={instagramIcon} />
+					</div>
 				</div>
 			</section>
 			<section class="posts-section">
@@ -203,7 +241,7 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
 								<p class="post-meta">
 									<FormattedDate date={post.data.pubDate} />
 									<span class="reading-time">
-										<span class="clock-icon" aria-hidden="true" set:html={clockIconSvg} />
+										<span class="clock-icon" aria-hidden="true" set:html={clockIcon} />
 										{estimateReadingTime(post.body ?? '')}
 									</span>
 								</p>

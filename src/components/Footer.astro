@@ -1,9 +1,19 @@
 ---
+import { githubIcon, linkedinIcon, envelopeIcon, instagramIcon } from '../utils/icons';
+
 const today = new Date();
 ---
 
 <footer>
-	<p>&copy; {today.getFullYear()} Sombra Workshop Blog.</p>
+	<div class="footer-content">
+		<div class="social-links">
+			<a href="https://github.com" aria-label="GitHub" set:html={githubIcon} />
+			<a href="https://linkedin.com" aria-label="LinkedIn" set:html={linkedinIcon} />
+			<a href="mailto:hello@example.com" aria-label="Email" set:html={envelopeIcon} />
+			<a href="https://instagram.com" aria-label="Instagram" set:html={instagramIcon} />
+		</div>
+		<p>&copy; {today.getFullYear()} All content licensed</p>
+	</div>
 </footer>
 <style>
 	footer {
@@ -11,10 +21,52 @@ const today = new Date();
 		margin-top: auto;
 	}
 
-	p {
+	.footer-content {
 		max-width: 680px;
 		padding: 49px 16px;
 		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 24px;
+	}
+
+	.social-links {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.social-links a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		color: var(--text-muted);
+		text-decoration: none;
+		border-radius: 4px;
+		transition: color 150ms ease;
+	}
+
+	.social-links a:hover {
+		color: var(--text-primary);
+		text-decoration: none;
+	}
+
+	.social-links a:focus-visible {
+		outline: 2px solid var(--brand);
+		outline-offset: 2px;
+	}
+
+	.social-links :global(svg) {
+		width: 20px;
+		height: 20px;
+		display: block;
+	}
+
+	p {
+		margin: 0;
 		text-align: center;
 		color: var(--text-muted);
 		font-size: 14px;

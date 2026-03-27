@@ -1,12 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faMoon, faSun, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-
-const moonIconSvg = icon(faMoon).html.join('');
-const sunIconSvg = icon(faSun).html.join('');
-const barsIconSvg = icon(faBars).html.join('');
-const closeIconSvg = icon(faXmark).html.join('');
+import { moonIcon, sunIcon, menuIcon, closeIcon } from '../utils/icons';
 ---
 
 <header>
@@ -16,12 +10,12 @@ const closeIconSvg = icon(faXmark).html.join('');
 			<a class="nav-link" href="/posts">Posts</a>
 			<a class="nav-link" href="/about">About</a>
 			<button class="theme-toggle" type="button" aria-pressed="false" aria-label="Enable dark mode">
-				<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIconSvg}></span>
-				<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIconSvg}></span>
+				<span class="theme-toggle-icon moon" aria-hidden="true" set:html={moonIcon}></span>
+				<span class="theme-toggle-icon sun" aria-hidden="true" set:html={sunIcon}></span>
 			</button>
 			<button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open menu">
-				<span class="menu-icon bars" aria-hidden="true" set:html={barsIconSvg}></span>
-				<span class="menu-icon close" aria-hidden="true" set:html={closeIconSvg}></span>
+				<span class="menu-icon bars" aria-hidden="true" set:html={menuIcon}></span>
+				<span class="menu-icon close" aria-hidden="true" set:html={closeIcon}></span>
 			</button>
 		</div>
 	</nav>
@@ -174,17 +168,17 @@ const closeIconSvg = icon(faXmark).html.join('');
 		outline-offset: 2px;
 	}
 
-	/* Hamburger menu toggle — hidden on desktop */
 	.menu-toggle {
 		display: none;
 		align-items: center;
 		justify-content: center;
-		width: 20px;
-		height: 20px;
+		width: 36px;
+		height: 36px;
+		padding: 8px;
+		margin: -8px;
 		border: 0;
 		background: transparent;
 		color: var(--text-muted);
-		padding: 0;
 		font-size: 0;
 		cursor: pointer;
 		border-radius: 4px;
@@ -227,7 +221,6 @@ const closeIconSvg = icon(faXmark).html.join('');
 		outline-offset: 2px;
 	}
 
-	/* Mobile menu panel — hidden by default */
 	.mobile-menu {
 		display: none;
 	}
